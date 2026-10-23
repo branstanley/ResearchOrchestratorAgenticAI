@@ -26,7 +26,10 @@ class PerAgentTraceSink:
 def main() -> None:
     client = ai.Client(
         provider_configs={
-            "ollama": {"base_url": "http://127.0.0.1:11434"}
+            "ollama": {
+                "base_url": "http://127.0.0.1:11434",
+                "timeout": 360,
+            }
         }
     )
 
@@ -55,7 +58,9 @@ def main() -> None:
             report. If the investigator reports arXiv as unavailable, say so
             explicitly and do not describe that as a search with no results.
             The current date is {date.today().strftime('%Y-%m-%d')}.
-            Return a well polished, clear report that is easy to digest with no additional commentary.  The report must be written in markdown.
+            Return a well polished, clear report that is easy to digest with no additional commentary.  
+            The report must be written in markdown.  
+            All citations must be gathered at the end of the report.
             """
         ),
         tools=[delegate_research, delegate_investigator, delegate_editor, delegator_outliner],
@@ -74,9 +79,16 @@ def main() -> None:
             trace_sinks=[trace_sink],
         )
         print(result.final_output)
+        fileNamer, _ = build_fileNamer()
+        name = ai.Runner.run_sync(
+            fileNamer,
+            question,
+            client=client,
+            max_turns=2
+        )
         
-        with open(f"./reports/report {date.today().strftime('%Y-%m-%d')}.md", "w", encoding="utf-8") as file:
-            file.write(result["final_report"])
+        with open(f"./reports/{name.final_output}", "w", encoding="utf-8") as file:
+            file.write(result.final_output)
 
 
 if __name__ == "__main__":

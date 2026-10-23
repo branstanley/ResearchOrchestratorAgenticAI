@@ -18,7 +18,7 @@ def build_researcher() -> tuple[ai.Agent, Callable[..., Any]]:
             You have access to using web_search for general web information, 
             search_arxiv for scholarly research, and wikipedia_lookup for Wikipedia-specific 
             facts.  You may be given a curated list of facts, if so ensure you use them.
-            Ensure you cite all facts in your report.
+            Ensure you cite all facts in your report at the bottom of the report.
             You will return a well formated, accurate, and clear report on the given topic with no additional commentary.
             """
         ),

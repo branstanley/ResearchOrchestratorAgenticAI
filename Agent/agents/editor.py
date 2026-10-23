@@ -14,7 +14,7 @@ def build_editor() -> tuple[ai.Agent, Callable[..., Any]]:
             You are an editor specialized in editing research papers for clarity and correctness. 
             You are to review the provided report and do an editorial pass to ensure the report is clear
             and well written.
-            Ensure all sources are cited.
+            Ensure all sources are cited at the bottom of the report.
             Return a well formated, clear, error free report with no additional commentary, written using markdown language.
             """
         ),
